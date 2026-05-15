@@ -1,0 +1,137 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../lib/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum ReservationPeriod{
+  TWO_HOURS
+  FOUR_HOURS
+  TWELVE_HOURS
+  OVERNIGHT
+}
+
+enum ReservationStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+model User {
+  id               String @id @default(cuid())
+  name             String
+  email            String @unique
+  password         String
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Suite {
+  id               String @id @default(cuid())
+  name             String
+  slug             String
+  description      String
+  thumbnail        String
+  maxGuests        Int @default(2)
+  active           Boolean @default(true)
+
+  images           SuiteImage[]
+  prices           SuitePrice[]
+  reservations     SuiteReservation[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model SuiteImage{
+  id               String @id @default(cuid())
+  url              String
+
+  suiteId          String
+  suite            Suite @relation(fields: [suiteId], references: [id], onDelete: Cascade)
+}
+
+model SuitePrice {
+  id               String @id @default(cuid())
+  price            Decimal @db.Decimal(10,2)
+
+  suiteId          String
+  suite            Suite @relation(fields: [suiteId], references: [id], onDelete: Cascade)
+
+  period           ReservationPeriod
+}
+
+model SuiteReservation{
+  id               String @id @default(cuid())
+  customerName     String
+  customerPhone    String
+  customerEmail    String
+  checkIn          DateTime
+  checkOut         DateTime
+  totalPrice       Decimal @db.Decimal(10,2)
+
+  suiteId          String
+  suite            Suite @relation(fields: [suiteId], references: [id], onDelete: Cascade)
+
+  period           ReservationPeriod
+
+  status           ReservationStatus
+
+  observations     String?
+
+  createdAt        DateTime @default(now())
+}
+
+model Experience {
+  id String @id @default(cuid())
+
+  title       String
+  slug        String @unique
+
+  description String
+
+  thumbnail String
+
+  price Decimal? @db.Decimal(10,2)
+
+  active Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model MenuCategory {
+  id String @id @default(cuid())
+
+  name String
+
+  items MenuItem[]
+}
+
+model MenuItem {
+  id String @id @default(cuid())
+
+  name String
+
+  description String?
+
+  image String?
+
+  price Decimal @db.Decimal(10,2)
+
+  available Boolean @default(true)
+
+  categoryId String
+  category   MenuCategory @relation(fields: [categoryId], references: [id])
+
+  createdAt DateTime @default(now())
+}
