@@ -4,20 +4,18 @@ import { Features } from "@/components/home/features";
 import { Hero } from "@/components/home/hero";
 import { MenuPreview } from "@/components/home/menu-preview";
 import { SuitePreview } from "@/components/home/suite-preview";
+import { Footer } from "@/components/shared/footer";
 import { Navbar } from "@/components/shared/navbar";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <SuitePreview />
-        <Features />
-        <ExperiencePreview />
-        <MenuPreview />
-        <CTA />
-      </main>
-    </>
+    <main>
+      <Hero />
+      <SuitePreview />
+      <Features />
+      <ExperiencePreview />
+      <MenuPreview />
+      <CTA />
+    </main>
   );
 }

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Clock4, CreditCard, LockKeyhole, ShieldCheck } from "lucide-react";
+import { BedDouble, CalendarCheck, Clock4, CreditCard, LayoutDashboard, LockKeyhole, Settings, ShieldCheck, Sparkles, UtensilsCrossed } from "lucide-react";
 import { ComponentProps } from "react";
 
 type ButtonVariants = ComponentProps<typeof Button>['variant'];
@@ -8,6 +8,12 @@ interface HeroButton{
     href: string;
     label: string;
     variant: ButtonVariants
+}
+
+interface CTAButton {
+  href: string;
+  label: string;
+  variant: ButtonVariants
 }
 
 export const heroButton: HeroButton[]  = [
@@ -43,4 +49,43 @@ export const featuresData = [
       description: 'Múltiplas formas de pagamento com total sigilo na fatura.',
       icon: CreditCard 
     },
+]
+
+export const ctaButtonData: CTAButton[]  = [
+    { href: '/reservas', label: 'Fazer Reserva', variant: 'default' },
+    { href: '/localizacao', label: 'Como Chegar', variant: 'outline' },
+]
+
+export const footerNavData = [
+  { href: '/suites', label: 'Suítes' },
+  { href: '/experiencias', label: 'Experiências' },
+  { href: '/cardapio', label: 'Cardápio' },
+  { href: '/reservas', label: 'Reservas' },
+]
+
+export const footerContactData = [
+  { label: 'Telefone', contact: '(13) 99999-9999' },
+  { label: 'WhatsApp', contact: '(13) 99999-9999' },
+  { label: 'E-mail', contact: 'contato@velvetstay.com.br' },
+]
+
+export const footerHoursData = [
+  { label: 'Segunda a Quinta', hour: '18h às 06h' },
+  { label: 'Sexta a Domingo', hour: '24 horas' },
+  { label: 'Feriados', hour: '24 horas' },
+]
+
+export const experiencePageData = [
+  { number: '1', title: 'Escolha', label: 'Selecione as experiências desejadas durante sua reserva' },
+  { number: '2', title: 'Confirme', label: 'Nossa equipe entrará em contato para confirmar os detalhes' },
+  { number: '3', title: 'Aproveite', label: 'Tudo estará preparado para sua chegada' },
+]
+
+export const sidebarLinks = [
+  { label: 'Dashboard', href: '/dashboard', icon: LayoutDashboard },
+  { label: 'Suítes', href: '/dashboard/suites', icon: BedDouble },
+  { label: 'Experiências', href: '/dashboard/experiencias', icon: Sparkles },
+  { label: 'Cardápio', href: '/dashboard/cardapio', icon: UtensilsCrossed },
+  { label: 'Reservas', href: '/dashboard/reservas', icon: CalendarCheck },
+  { label: 'Configurações', href: '/dashboard/configuracoes', icon: Settings },
 ]

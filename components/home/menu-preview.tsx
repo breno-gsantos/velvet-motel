@@ -15,7 +15,7 @@ export function MenuPreview(){
                     <SectionHeader title="Gastronomia de Excelência" subtitle="Um cardápio elaborado para complementar sua experiência. Pratos sofisticados, bebidas premium e sobremesas irresistíveis." />
                     <div className="space-y-4">
                         {featuredItems.map((item) => (
-                            <div key={item.id} className="flex items-center justify-between p-3 border border-border rounded-md">
+                            <div key={item.id} className="flex items-center justify-between py-3 border-b border-border">
                                 <div>
                                     <h4 className="font-medium text-foreground">{item.name}</h4>
                                     <p className="text-sm text-muted-foreground line-clamp-1">{item.description}</p>

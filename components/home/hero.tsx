@@ -7,7 +7,7 @@ export function Hero(){
     return (
         <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
             <div className="absolute inset-0">
-                <Image src='/hero-image.jpeg' alt="Suite" fill className="object-cover" priority sizes="100vw" />
+                <Image src='/hero.jpeg' alt="Suite" fill className="object-cover" priority sizes="100vw" />
                 <div className="absolute inset-0 bg-linear-to-b from-background/70 via-background/50 to-background" />
             </div>
 
