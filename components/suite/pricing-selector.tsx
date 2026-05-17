@@ -1,19 +1,26 @@
 'use client'
 
-import { formatPrice, Period, periodLabels, SuitePrice } from "@/lib/mock"
+import { ReservationPeriod, SuitePrice } from "@/lib/generated/prisma/client";
+import { formatPrice, Period, periodLabels } from "@/lib/mock"
 import { cn } from "@/lib/utils";
 import { useState } from "react";
 
+interface PricingPrice {
+  id: string;
+  period: ReservationPeriod;
+  price: number
+}
+
 interface PricingSelectorProps {
-  prices: SuitePrice[]
-  onSelect?: (price: SuitePrice) => void;
+  prices: PricingPrice[]
+  onSelect?: (price: PricingPrice) => void;
   selectedPeriod?: Period;
 }
 
 export function PricingSelector({ prices, onSelect, selectedPeriod }: PricingSelectorProps) {
   const [selected, setSelected] = useState<Period | undefined>(selectedPeriod);
 
-  function handleSelect(price: SuitePrice) {
+  function handleSelect(price: PricingPrice) {
     setSelected(price.period)
     onSelect?.(price)
   }

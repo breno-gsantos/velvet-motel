@@ -1,10 +1,19 @@
-import { formatPrice, Suite } from "@/lib/mock";
+import { formatPrice } from "@/lib/mock";
 import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
+import { Suite } from "@/lib/generated/prisma/client";
+
+type SuiteWithPrices = Suite & {
+    prices: {
+        id: string;
+        period: string;
+        price: number;
+    }[]
+}
 
 interface SuiteCardProps {
-    suite: Suite
+    suite: SuiteWithPrices
 }
 
 export function SuiteCard({suite}: SuiteCardProps){

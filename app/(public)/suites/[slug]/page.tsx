@@ -3,9 +3,29 @@ import { Gallery } from "@/components/suite/gallery";
 import { PricingSelector } from "@/components/suite/pricing-selector";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import prisma from "@/lib/db";
 import { formatPrice, getSuiteBySlug } from "@/lib/mock";
+import { Decimal } from "@prisma/client/runtime/client";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+
+interface SuiteWithPrices{
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  thumbnail: string;
+  maxGuests: number;
+  active: boolean;
+  amenities: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  prices: {
+    id: string;
+    period: string;
+    price: number;
+  }
+}
 
 interface SuiteDetailsPageProps {
   params: {
@@ -16,11 +36,29 @@ interface SuiteDetailsPageProps {
 export default async function SuiteDetailsPage({ params }: SuiteDetailsPageProps) {
   const { slug } = await params
 
-  const suite = getSuiteBySlug(slug);
+  const suiteFromDb = await prisma.suite.findUnique({
+    where: {
+      slug
+    },
+    include: {
+      images: true,
+      prices: true
+    }
+  })
 
-  if (!suite) {
-    notFound();
+  if (!suiteFromDb) {
+    notFound()
   }
+
+  const suite = {
+    ...suiteFromDb,
+    prices: suiteFromDb.prices.map((price) => ({
+      id: price.id,
+      period: price.period,
+      price: price.price.toNumber(),
+    })),
+  }
+
 
   const lowestPrice = Math.min(...suite.prices.map((p) => p.price))
 

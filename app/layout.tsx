@@ -3,6 +3,7 @@ import { Inter, Playfair_Display } from 'next/font/google'
 import './globals.css'
 import { Navbar } from '@/components/shared/navbar'
 import { Footer } from '@/components/shared/footer'
+import { Toaster } from '@/components/ui/sonner'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -41,6 +42,7 @@ export default function RootLayout({
     <html lang="pt-BR" className={`${inter.variable} ${playfair.variable} bg-background`}>
       <body className="font-sans antialiased">
         {children}
+        <Toaster />
       </body>
     </html>
   )

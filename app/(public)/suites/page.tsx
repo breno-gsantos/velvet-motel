@@ -1,7 +1,7 @@
 import { PageHeader } from "@/components/shared/page-header"
 import { SectionWrapper } from "@/components/shared/section-wrapper"
 import { SuiteCard } from "@/components/ui/suite-card"
-import { suites } from "@/lib/mock"
+import prisma from "@/lib/db"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -9,7 +9,21 @@ export const metadata: Metadata = {
   description: 'Conheça nossas suítes exclusivas. Ambientes luxuosos projetados para proporcionar privacidade, conforto e experiências inesquecíveis.',
 }
 
-export default function SuitesPage() {
+export default async function SuitesPage() {
+  const suitesRaw = await prisma.suite.findMany({
+    include: {
+      prices: true
+    }
+  })
+
+  const suites = suitesRaw.map((suite) => ({
+    ...suite,
+    prices: suite.prices.map((price) => ({
+      ...price,
+      price: price.price.toNumber()
+    }))
+  }))
+
   return (
     <main>
       <PageHeader

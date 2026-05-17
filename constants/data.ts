@@ -89,3 +89,19 @@ export const sidebarLinks = [
   { label: 'Reservas', href: '/dashboard/reservas', icon: CalendarCheck },
   { label: 'Configurações', href: '/dashboard/configuracoes', icon: Settings },
 ]
+
+export const dashboardStats = {
+  totalRevenue: 45890,
+  monthlyRevenue: 12450,
+  totalReservations: 234,
+  pendingReservations: 12,
+  confirmedToday: 5,
+  occupancyRate: 78,
+}
+
+export const dashboardQuickActionsData = [
+  { href: '/dashboard/suites/nova', label: 'Nova Suíte' },
+  { href: '/dashboard/experiencias/nova', label: 'Nova Experiência' },
+  { href: '/dashboard/cardapio/novo', label: 'Novo Item' },
+  { href: '/dashboard/reservas', label: 'Ver Reservas' },
+]

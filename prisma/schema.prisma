@@ -38,11 +38,12 @@ model User {
 model Suite {
   id               String @id @default(cuid())
   name             String
-  slug             String
+  slug             String @unique
   description      String
   thumbnail        String
   maxGuests        Int @default(2)
   active           Boolean @default(true)
+  amenities        String[]
 
   images           SuiteImage[]
   prices           SuitePrice[]

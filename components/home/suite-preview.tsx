@@ -4,8 +4,43 @@ import { suites } from "@/lib/mock";
 import { SuiteCard } from "@/components/ui/suite-card";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import prisma from "@/lib/db";
+import { Decimal } from "@prisma/client/runtime/client";
 
-export function SuitePreview(){
+interface SuiteWithPrices{
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  thumbnail: string;
+  maxGuests: number;
+  active: boolean;
+  amenities: string[];
+  createdAt: Date;
+  updatedAt: Date;
+  prices: {
+    id: string;
+    period: string;
+    price: number;
+  }[]
+}
+
+export async function SuitePreview() {
+    const suitesFromDb = await prisma.suite.findMany({
+    include: {
+      prices: true
+    }
+  })
+
+  const suites: SuiteWithPrices[] = suitesFromDb.map(suite => ({
+    ...suite,
+    prices: suite.prices.map(price => ({
+      id: price.id,
+      period: price.period.toString(),
+      price: (price.price as Decimal).toNumber()
+    }))
+  }))
+
     const featuredSuites = suites.slice(0, 3)
 
     return (
