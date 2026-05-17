@@ -1,5 +1,7 @@
 'use client'
 
+import { deleteSuite } from "@/actions/suites/delete-suite";
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
@@ -12,6 +14,7 @@ import { Eye, MoreHorizontal, Pencil, Plus, Search, Trash2 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react"
+import { toast } from "sonner";
 
 type SuiteWithPrices = Suite & {
   prices: {
@@ -31,6 +34,23 @@ export function SuiteActionBar({ suites }: Props) {
   const filteredSuites = suites.filter((suite) => (
     suite.name.toLowerCase().includes(search.toLowerCase())
   ))
+
+  async function handleDelete(id: string) {
+    try {
+      const response = await deleteSuite(id);
+
+      if (!response.success){
+        toast.error(response.error)
+        return; 
+      }
+
+      toast.success(response.message)
+    } catch (error) {
+      console.log(error);
+
+      toast.error('Erro interno no servidor')
+    }
+  }
 
   return (
     <>
@@ -117,10 +137,29 @@ export function SuiteActionBar({ suites }: Props) {
                         </Link>
                       </DropdownMenuItem>
                       <DropdownMenuSeparator />
-                      <DropdownMenuItem className="text-destructive focus:text-destructive">
-                        <Trash2 className="mr-2 size-4" />
-                        Excluir
-                      </DropdownMenuItem>
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <DropdownMenuItem className="text-destructive focus:text-destructive" onSelect={(e) => e.preventDefault()}>
+                            <Trash2 className="mr-2 size-4" />
+                            Excluir
+                          </DropdownMenuItem>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>Excluir Suíte?</AlertDialogTitle>
+                            <AlertDialogDescription>
+                              Essa ação não pode ser desfeita. Isso removerá
+                              permanentemente a suíte e todas as informações relacionadas.
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                            <AlertDialogAction onClick={() => handleDelete(suite.id)} className="bg-destructive hover:bg-destructive/90">
+                              Excluir suíte
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
                     </DropdownMenuContent>
                   </DropdownMenu>
                 </TableCell>

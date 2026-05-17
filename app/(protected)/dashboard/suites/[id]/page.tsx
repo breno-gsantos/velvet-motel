@@ -1,24 +1,40 @@
 import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { EditSuiteForm } from "@/components/dashboard/suites/forms/edit-suite-form";
 import { Button } from "@/components/ui/button";
-import { suites } from "@/lib/mock";
+import prisma from "@/lib/db";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 
 interface Props {
-  params: {
-    id: string;
-  }
+  params: Promise<{
+    id: string
+  }>
 }
 
 export default async function EditSuitePage({ params }: Props) {
   const { id } = await params;
 
-  const suite = suites.find((s) => s.id === id);
+  const suite = await prisma.suite.findUnique({
+    where: {
+      id
+    },
+    include: {
+      prices: true,
+      images: true
+    }
+  })
 
   if (!suite) {
     notFound()
+  }
+
+  const serializedSuite = {
+    ...suite,
+    prices: suite.prices.map(price => ({
+      ...price,
+      price: Number(price.price)
+    }))
   }
 
   return (
@@ -34,7 +50,7 @@ export default async function EditSuitePage({ params }: Props) {
           </Button>
         </div>
 
-        <EditSuiteForm />
+        <EditSuiteForm suite={serializedSuite} />
       </div>
     </>
   )

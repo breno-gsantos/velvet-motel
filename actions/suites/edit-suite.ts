@@ -4,28 +4,34 @@ import prisma from "@/lib/db";
 import { suiteSchema } from "@/lib/validations/suites/schemas"
 import { revalidatePath } from "next/cache";
 
-export async function createSuite(values: unknown) {
+export async function editSuite(values: unknown, suiteId: string) {
   const validatedFields = suiteSchema.safeParse(values);
 
   if (!validatedFields.success) {
-    console.log(validatedFields.error.flatten())
     return {success: false, error: 'Dados Inválidos'}
   }
 
-  const { active, amenities, description, images, maxGuests, name, prices, slug } = validatedFields.data;
+  const { name, active, amenities, description, images, maxGuests, prices, slug } = validatedFields.data
 
-  const suiteExists = await prisma.suite.findUnique({
+  const suiteExists = await prisma.suite.findFirst({
     where: {
-      slug
+      slug,
+      NOT: {
+        id: suiteId
+      }
     }
-  })
+  });
 
   if (suiteExists) {
     return {success: false, error: 'Já existe uma suíte com esse slug'}
   }
 
   try {
-    await prisma.suite.create({
+    await prisma.suite.update({
+      where: {
+        id: suiteId
+      },
+
       data: {
         name,
         slug,
@@ -36,6 +42,8 @@ export async function createSuite(values: unknown) {
         amenities,
 
         prices: {
+          deleteMany: {},
+
           create: prices.map((price) => ({
             period: price.period,
             price: price.price
@@ -43,18 +51,22 @@ export async function createSuite(values: unknown) {
         },
 
         images: {
+          deleteMany: {},
+
           create: images.map((url) => ({
             url
           }))
         }
       }
-    })
+    });
 
-    revalidatePath('/dashboard/suites')
-    return {success: true, message: 'Suíte criada com sucesso!'}
+    revalidatePath('/dashboard/suites');
+    revalidatePath(`/dashboard/suites/${suiteId}`)
+
+    return {success: true, message: 'Suíte atualizada com sucesso!'}
   } catch (error) {
     console.log(error);
 
-    return {success: false, error: 'Erro ao criar suíte'}
+    return {success: false, error: 'Erro ao atualizar suíte'}
   }
 }

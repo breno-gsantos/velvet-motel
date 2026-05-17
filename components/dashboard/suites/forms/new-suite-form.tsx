@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
 import { Period, periodLabels } from "@/lib/mock"
-import { NewSuiteFormData, newSuiteSchema } from "@/lib/validations/suites/schemas"
+import { SuiteFormData, suiteSchema } from "@/lib/validations/suites/schemas"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, Save, Upload, X } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -22,8 +22,8 @@ const allPeriods: Period[] = ['TWO_HOURS', 'FOUR_HOURS', 'TWELVE_HOURS', 'OVERNI
 export function NewSuiteForm() {
   const router = useRouter();
 
-  const form = useForm<NewSuiteFormData>({
-    resolver: zodResolver(newSuiteSchema),
+  const form = useForm<SuiteFormData>({
+    resolver: zodResolver(suiteSchema),
     defaultValues: {
       name: '',
       slug: '',
@@ -60,7 +60,7 @@ export function NewSuiteForm() {
     setNewAmenity('')
   }
 
-  async function onSubmit(values: NewSuiteFormData) {
+  async function onSubmit(values: SuiteFormData) {
     try {
       let uploadedUrls: string[] = []
 

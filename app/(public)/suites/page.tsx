@@ -2,12 +2,6 @@ import { PageHeader } from "@/components/shared/page-header"
 import { SectionWrapper } from "@/components/shared/section-wrapper"
 import { SuiteCard } from "@/components/ui/suite-card"
 import prisma from "@/lib/db"
-import { Metadata } from "next"
-
-export const metadata: Metadata = {
-  title: 'Suítes | Velvet Stay',
-  description: 'Conheça nossas suítes exclusivas. Ambientes luxuosos projetados para proporcionar privacidade, conforto e experiências inesquecíveis.',
-}
 
 export default async function SuitesPage() {
   const suitesRaw = await prisma.suite.findMany({

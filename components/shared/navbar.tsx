@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import Image from "next/image";
 
 export function Navbar() {
     const pathname = usePathname()
@@ -14,9 +15,7 @@ export function Navbar() {
             <nav className="mx-auto container px-4 sm:px-6 lg:px-8">
                 <div className="h-20 flex items-center justify-between">
                     <Link href='/' className="flex items-center gap-2">
-                        <span className="font-serif text-2xl font-medium tracking-tight text-foreground">
-                            Velvet Stay
-                        </span>
+                        <Image src='/logo-removebg-preview.png' alt="Logo" width={90} height={90} />
                     </Link>
 
                     <div className="hidden md:flex items-center gap-8">
