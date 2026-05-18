@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/shared/page-header"
 import { SectionWrapper } from "@/components/shared/section-wrapper"
 import { ExperienceCard } from "@/components/ui/experience-card"
 import { experiencePageData } from "@/constants/data"
-import { experiences } from "@/lib/mock"
+import prisma from "@/lib/db"
 import { Metadata } from "next"
 
 export const metadata: Metadata = {
@@ -10,7 +10,14 @@ export const metadata: Metadata = {
   description: 'Descubra experiências exclusivas para tornar sua visita ainda mais especial. Jantares românticos, spa, decoração especial e muito mais.',
 }
 
-export default function ExperienciasPage() {
+export default async function ExperienciasPage() {
+  const experiences = await prisma.experience.findMany();
+
+  const formattedExperiences = experiences.map((experience) => ({
+    ...experience,
+    price: Number(experience.price)
+  }))
+
   return (
     <main>
       <PageHeader
@@ -19,7 +26,7 @@ export default function ExperienciasPage() {
       />
       <SectionWrapper className="pt=0">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {experiences.map((experience) => (
+          {formattedExperiences.map((experience) => (
             <ExperienceCard key={experience.id} experience={experience} />
           ))}
         </div>

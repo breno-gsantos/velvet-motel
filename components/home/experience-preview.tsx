@@ -1,12 +1,19 @@
 import { SectionWrapper } from "@/components/shared/section-wrapper";
 import { SectionHeader } from "@/components/shared/section-header";
-import { experiences } from "@/lib/mock";
 import { ExperienceCard } from "@/components/ui/experience-card";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import prisma from "@/lib/db";
 
-export function ExperiencePreview(){
-    const featuredExperiences = experiences.slice(0, 3)
+export async function ExperiencePreview() {
+    const experiences = await prisma.experience.findMany();
+
+    const formattedExperiences = experiences.map((experience) => ({
+        ...experience,
+        price: Number(experience.price)
+    }))
+
+    const featuredExperiences = formattedExperiences.slice(0, 3)
 
     return (
         <SectionWrapper>

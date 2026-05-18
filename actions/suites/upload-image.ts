@@ -19,7 +19,7 @@ export async function uploadMenuImage(formData: FormData): Promise<string> {
   return new Promise((resolve, reject) => {
     cloudinary.uploader.upload_stream(
       {
-        folder: '/velvet/suites',
+        folder: 'velvet/suites',
         resource_type: 'image',
         access_mode: 'public'
       },

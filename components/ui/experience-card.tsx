@@ -1,10 +1,15 @@
-import { Experience, formatPrice } from "@/lib/mock"
+import { formatPrice } from "@/lib/mock"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
+import { Experience } from "@/lib/generated/prisma/client"
+
+type ExperienceWithNumberPrice = Omit<Experience, 'price'> & {
+    price: number;
+}
 
 interface ExperienceCardProps {
-    experience: Experience
+    experience: ExperienceWithNumberPrice
 }
 
 export function ExperienceCard({experience}: ExperienceCardProps){
