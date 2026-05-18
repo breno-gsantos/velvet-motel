@@ -9,21 +9,18 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { Experience } from "@/lib/generated/prisma/client"
 import { ExperienceFormData, experienceSchema } from "@/lib/validations/experiences/schema";
+import { DashboardExperienceDTO } from "@/types";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Save, Upload } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 
-type ExperienceWithNumberPrice = Omit<Experience, 'price'> & {
-  price: number;
-}
-
 interface Props {
-  experience: ExperienceWithNumberPrice
+  experience: DashboardExperienceDTO
 }
 
 export function EditExperienceForm({ experience }: Props) {

@@ -9,18 +9,15 @@ import { Input } from "@/components/ui/input";
 import { Experience } from "@/lib/generated/prisma/client";
 import { formatPrice } from "@/lib/mock";
 import { cn } from "@/lib/utils";
+import { DashboardExperienceDTO } from "@/types";
 import { Eye, MoreHorizontal, Pencil, Plus, Search, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { toast } from "sonner";
 
-type ExperienceWithNumberPrice = Omit<Experience, 'price'> & {
-  price: number | null;
-}
-
 interface Props {
-  experiences: ExperienceWithNumberPrice[]
+  experiences: DashboardExperienceDTO[]
 }
 
 export function ExperienceActionBar({ experiences }: Props) {

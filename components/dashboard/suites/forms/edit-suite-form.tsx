@@ -8,9 +8,10 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Input } from "@/components/ui/input"
 import { Switch } from "@/components/ui/switch"
 import { Textarea } from "@/components/ui/textarea"
-import { ReservationPeriod, Suite, SuiteImage, SuitePrice } from "@/lib/generated/prisma/client"
+import { Prisma, ReservationPeriod, Suite, SuiteImage, SuitePrice } from "@/lib/generated/prisma/client"
 import { periodLabels } from "@/lib/mock"
 import { SuiteFormData, suiteSchema } from "@/lib/validations/suites/schemas"
+import { DashboardSuiteDTO } from "@/types"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { Plus, Save, Upload, X } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -19,15 +20,7 @@ import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 
 interface Props {
-  suite: Suite & {
-    prices: {
-      id: string;
-      suiteId: string;
-      period: ReservationPeriod
-      price: number;
-    }[]
-    images: SuiteImage[]
-  }
+  suite: DashboardSuiteDTO
 }
 
 export function EditSuiteForm({ suite }: Props) {

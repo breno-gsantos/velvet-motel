@@ -2,6 +2,7 @@ import { DashboardHeader } from "@/components/dashboard/dashboard-header";
 import { EditSuiteForm } from "@/components/dashboard/suites/forms/edit-suite-form";
 import { Button } from "@/components/ui/button";
 import prisma from "@/lib/db";
+import { DashboardSuiteDTO } from "@/types";
 import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -29,7 +30,7 @@ export default async function EditSuitePage({ params }: Props) {
     notFound()
   }
 
-  const serializedSuite = {
+  const serializedSuite: DashboardSuiteDTO = {
     ...suite,
     prices: suite.prices.map(price => ({
       ...price,

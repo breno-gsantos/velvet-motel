@@ -10,22 +10,15 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Suite } from "@/lib/generated/prisma/client";
 import { formatPrice } from "@/lib/mock";
 import { cn } from "@/lib/utils";
+import { suiteDTO } from "@/types";
 import { Eye, MoreHorizontal, Pencil, Plus, Search, Trash2 } from "lucide-react"
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react"
 import { toast } from "sonner";
 
-type SuiteWithPrices = Suite & {
-  prices: {
-    id: string;
-    period: string;
-    price: number;
-  }[]
-}
-
 interface Props {
-  suites: SuiteWithPrices[]
+  suites: suiteDTO[]
 }
 
 export function SuiteActionBar({ suites }: Props) {

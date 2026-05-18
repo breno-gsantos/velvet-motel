@@ -1,9 +1,10 @@
 'use server'
 
 import prisma from "@/lib/db"
+import { ResponseAction } from "@/types"
 import { revalidatePath } from "next/cache"
 
-export async function deleteExperience(id: string) {
+export async function deleteExperience(id: string): Promise<ResponseAction> {
   try {
     const experienceExists = await prisma.experience.findUnique({
       where: { id }

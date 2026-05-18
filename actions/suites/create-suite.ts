@@ -2,9 +2,10 @@
 
 import prisma from "@/lib/db";
 import { suiteSchema } from "@/lib/validations/suites/schemas"
+import { ResponseAction } from "@/types";
 import { revalidatePath } from "next/cache";
 
-export async function createSuite(values: unknown) {
+export async function createSuite(values: unknown): Promise<ResponseAction> {
   const validatedFields = suiteSchema.safeParse(values);
 
   if (!validatedFields.success) {

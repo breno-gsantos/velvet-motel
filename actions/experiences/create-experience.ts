@@ -2,9 +2,10 @@
 
 import prisma from "@/lib/db";
 import { experienceSchema } from "@/lib/validations/experiences/schema"
+import { ResponseAction } from "@/types";
 import { revalidatePath } from "next/cache";
 
-export async function createExperience(values: unknown) {
+export async function createExperience(values: unknown): Promise<ResponseAction> {
   const validatedFields = experienceSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -20,7 +21,7 @@ export async function createExperience(values: unknown) {
   })
 
   if (experienceExists) {
-    return {sucess: false, error: 'Já existe uma experiência com esse slug'}
+    return {success: false, error: 'Já existe uma experiência com esse slug'}
   }
 
   try {

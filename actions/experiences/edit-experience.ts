@@ -4,8 +4,9 @@ import prisma from "@/lib/db";
 import { experienceSchema } from "@/lib/validations/experiences/schema"
 import { revalidatePath } from "next/cache";
 import { deleteImage } from "../delete-image";
+import { ResponseAction } from "@/types";
 
-export async function updateExperience(values: unknown, id: string) {
+export async function updateExperience(values: unknown, id: string): Promise<ResponseAction> {
   const validatedFields = experienceSchema.safeParse(values);
 
   if (!validatedFields.success) {
@@ -24,7 +25,7 @@ export async function updateExperience(values: unknown, id: string) {
   });
 
   if (experienceExists) {
-    return {sucess: false, error: 'Já existe uma experiência com esse slug'}
+    return {success: false, error: 'Já existe uma experiência com esse slug'}
   }
 
   const currentExperience = await prisma.experience.findUnique({

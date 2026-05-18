@@ -2,14 +2,10 @@ import { formatPrice } from "@/lib/mock"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { Experience } from "@/lib/generated/prisma/client"
-
-type ExperienceWithNumberPrice = Omit<Experience, 'price'> & {
-    price: number;
-}
+import { DashboardExperienceDTO } from "@/types"
 
 interface ExperienceCardProps {
-    experience: ExperienceWithNumberPrice
+    experience: DashboardExperienceDTO
 }
 
 export function ExperienceCard({experience}: ExperienceCardProps){
@@ -24,7 +20,7 @@ export function ExperienceCard({experience}: ExperienceCardProps){
                 <p className="mt-3 text-sm text-muted-foreground leading-relaxed line-clamp-3">{experience.description}</p>
                 <div className="mt-6 flex items-center justify-between">
                     <span className="text-lg font-medium text-primary">
-                        {formatPrice(experience.price)}
+                        {formatPrice(experience.price as number)}
                     </span>
                     <Button variant='secondary' size='sm' asChild>
                         <Link href={`/reservas?experiencia=${experience.slug}`}>

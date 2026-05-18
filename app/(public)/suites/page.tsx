@@ -2,6 +2,7 @@ import { PageHeader } from "@/components/shared/page-header"
 import { SectionWrapper } from "@/components/shared/section-wrapper"
 import { SuiteCard } from "@/components/ui/suite-card"
 import prisma from "@/lib/db"
+import { suiteDTO } from "@/types"
 
 export default async function SuitesPage() {
   const suitesRaw = await prisma.suite.findMany({
@@ -10,7 +11,7 @@ export default async function SuitesPage() {
     }
   })
 
-  const suites = suitesRaw.map((suite) => ({
+  const suites: suiteDTO[] = suitesRaw.map((suite) => ({
     ...suite,
     prices: suite.prices.map((price) => ({
       ...price,

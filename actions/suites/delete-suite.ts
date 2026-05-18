@@ -1,9 +1,10 @@
 'use server'
 
 import prisma from "@/lib/db"
+import { ResponseAction } from "@/types"
 import { revalidatePath } from "next/cache"
 
-export async function deleteSuite(id: string) {
+export async function deleteSuite(id: string): Promise<ResponseAction> {
   try {
     const suiteExists = prisma.suite.findUnique({
       where: { id }
